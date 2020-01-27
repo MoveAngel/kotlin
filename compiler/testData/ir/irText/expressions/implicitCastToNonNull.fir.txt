@@ -27,7 +27,7 @@ FILE fqName:<root> fileName:/implicitCastToNonNull.kt
           BRANCH
             if: CONST Boolean type=kotlin.Boolean value=true
             then: CALL 'public abstract fun <get-length> (): kotlin.Int declared in kotlin.CharSequence' type=kotlin.Int origin=null
-              $this: GET_VAR 'x: T of <root>.test2 declared in <root>.test2' type=kotlin.Any origin=null
+              $this: GET_VAR 'x: T of <root>.test2 declared in <root>.test2' type=T of <root>.test2 origin=null
   FUN name:test3 visibility:public modality:FINAL <T> (x:kotlin.Any) returnType:kotlin.Int [inline]
     TYPE_PARAMETER name:T index:0 variance: superTypes:[kotlin.CharSequence?]
     VALUE_PARAMETER name:x index:0 type:kotlin.Any

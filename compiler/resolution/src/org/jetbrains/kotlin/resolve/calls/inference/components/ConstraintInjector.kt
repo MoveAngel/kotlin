@@ -82,7 +82,9 @@ class ConstraintInjector(
 
             // it is important, that we add constraint here(not inside TypeCheckerContext), because inside incorporation we read constraints
             constraints.addConstraint(constraint)?.let {
-                constraintIncorporator.incorporate(typeCheckerContext, typeVariable, it)
+                if (!constraint.isNullabilityConstraint) {
+                    constraintIncorporator.incorporate(typeCheckerContext, typeVariable, it)
+                }
             }
         }
     }
@@ -96,6 +98,7 @@ class ConstraintInjector(
 
         val constraintType = constraint.type
         if (!isAllowedType(constraintType)) return true
+//        if (constraint.isNullabilityConstraint) return true
 
         if (constraintType.typeConstructor() == typeVariable.freshTypeConstructor()) {
             if (constraintType.lowerBoundIfFlexible().isMarkedNullable() && constraint.kind == LOWER) return false // T? <: T

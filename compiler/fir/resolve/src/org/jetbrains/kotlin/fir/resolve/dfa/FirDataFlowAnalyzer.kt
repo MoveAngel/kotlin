@@ -793,7 +793,7 @@ abstract class FirDataFlowAnalyzer<FLOW : Flow>(
 
     private fun <T : CFGNode<*>> T.mergeIncomingFlow(updateReceivers: Boolean = false): T = this.also { node ->
         val previousFlows = if (node.isDead)
-            node.previousNodes
+            node.previousNodes.map { it.flow }
         else
             node.previousNodes.mapNotNull { prev -> prev.takeIf { !it.isDead }?.flow }
         val flow = logicSystem.joinFlow(previousFlows)

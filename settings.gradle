@@ -123,9 +123,9 @@ include ":kotlin-build-common",
         ":js:js.translator",
         ":js:js.dce",
         ":js:js.tests",
-        ":kotlin-native:kotlin-native-utils",
+        ":konan:kotlin-native-utils",
         ":konan:frontend.konan",
-        ":kotlin-native:commonizer",
+        ":konan:kotlin-native-commonizer",
         ":jps-plugin",
         ":kotlin-jps-plugin",
         ":core:descriptors",
@@ -402,9 +402,9 @@ project(':kotlin-stdlib-js-ir').projectDir = "$rootDir/libraries/stdlib/js-ir" a
 project(':kotlin-util-io').projectDir = "$rootDir/compiler/util-io" as File
 project(':kotlin-util-klib').projectDir = "$rootDir/compiler/util-klib" as File
 project(':kotlin-util-klib-metadata').projectDir = "$rootDir/compiler/util-klib-metadata" as File
-project(':kotlin-native:kotlin-native-utils').projectDir = "$rootDir/konan/utils" as File
+project(':konan:kotlin-native-utils').projectDir = "$rootDir/konan/utils" as File
 project(':konan:frontend.konan').projectDir = "$rootDir/konan/frontend" as File
-project(':kotlin-native:commonizer').projectDir = "$rootDir/konan/commonizer" as File
+project(':konan:kotlin-native-commonizer').projectDir = "$rootDir/konan/commonizer" as File
 project(':kotlin-jps-plugin').projectDir = "$rootDir/prepare/jps-plugin" as File
 project(':idea:idea-android-output-parser').projectDir = "$rootDir/idea/idea-android/idea-android-output-parser" as File
 project(':plugins:android-extensions-compiler').projectDir = "$rootDir/plugins/android-extensions/android-extensions-compiler" as File

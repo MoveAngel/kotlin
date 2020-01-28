@@ -33,7 +33,7 @@ dependencies {
     testCompile(project(":idea:idea-gradle-native")) { isTransitive = false }
 
     testRuntime(project(":konan:frontend.konan")) { isTransitive = false }
-    testRuntime(project(":kotlin-native:kotlin-native-utils")) { isTransitive = false }
+    testRuntime(project(":konan:kotlin-native-utils")) { isTransitive = false }
     testRuntime(project(":plugins:kapt3-idea")) { isTransitive = false }
     testRuntime(project(":idea:idea-jvm"))
     testRuntime(project(":idea:idea-android"))

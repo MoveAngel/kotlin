@@ -9,7 +9,7 @@ dependencies {
     compile(project(":idea:idea-jvm"))
     compile(project(":compiler:frontend"))
     compile(project(":konan:frontend.konan"))
-    compile(project(":kotlin-native:kotlin-native-utils"))
+    compile(project(":konan:kotlin-native-utils"))
 
     compileOnly(intellijDep())
     Platform[192].orHigher {

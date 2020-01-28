@@ -238,6 +238,7 @@ extra["compilerModules"] = arrayOf(
     ":js:js.frontend",
     ":js:js.translator",
     ":js:js.dce",
+    ":konan:frontend.konan",
     ":compiler",
     ":kotlin-build-common",
     ":core:metadata",

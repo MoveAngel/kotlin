@@ -110,7 +110,9 @@ class FirCallResolver(
         return resultFunctionCall
     }
 
-    private data class ResolutionResult(val info: CallInfo, val applicability: CandidateApplicability, val candidates: Collection<Candidate>)
+    private data class ResolutionResult(
+        val info: CallInfo, val applicability: CandidateApplicability, val candidates: Collection<Candidate>
+    )
 
     private fun collectCandidates(functionCall: FirFunctionCall): ResolutionResult {
         val explicitReceiver = functionCall.explicitReceiver
@@ -137,7 +139,7 @@ class FirCallResolver(
         val reducedCandidates = if (result.currentApplicability < CandidateApplicability.SYNTHETIC_RESOLVED) {
             bestCandidates.toSet()
         } else {
-            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = true)
+            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = true, discriminateSAMs = true)
         }
         return ResolutionResult(info, result.currentApplicability, reducedCandidates)
     }
@@ -174,7 +176,7 @@ class FirCallResolver(
         val reducedCandidates = if (result.currentApplicability < CandidateApplicability.SYNTHETIC_RESOLVED) {
             bestCandidates.toSet()
         } else {
-            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = false)
+            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = false, discriminateSAMs = false)
         }
         val nameReference = createResolvedNamedReference(
             callee,
@@ -258,7 +260,7 @@ class FirCallResolver(
         val reducedCandidates = if (noSuccessfulCandidates) {
             bestCandidates.toSet()
         } else {
-            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = false)
+            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = false, discriminateSAMs = false)
         }
 
         when {
@@ -289,7 +291,7 @@ class FirCallResolver(
         symbol: FirClassSymbol<*>,
         typeArguments: List<FirTypeProjection>
     ): FirDelegatedConstructorCall? {
-        val scope = symbol.fir.unsubstitutedScope(session, scopeSession) ?: return null
+        val scope = symbol.fir.unsubstitutedScope(session, scopeSession)
         val className = symbol.classId.shortClassName
         val callInfo = CallInfo(
             CallKind.Function,
@@ -313,14 +315,16 @@ class FirCallResolver(
         return callResolver.selectCandidateFromGivenCandidates(delegatedConstructorCall, className, candidates)
     }
 
-    fun <T> selectCandidateFromGivenCandidates(call: T, name: Name, candidates: Collection<Candidate>): T where T : FirResolvable, T : FirCall {
+    private fun <T> selectCandidateFromGivenCandidates(
+        call: T, name: Name, candidates: Collection<Candidate>
+    ): T where T : FirResolvable, T : FirCall {
         val result = CandidateCollector(this, resolutionStageRunner)
         candidates.forEach { result.consumeCandidate(TowerGroup.Start, it) }
         val bestCandidates = result.bestCandidates()
         val reducedCandidates = if (result.currentApplicability < CandidateApplicability.SYNTHETIC_RESOLVED) {
             bestCandidates.toSet()
         } else {
-            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = true)
+            conflictResolver.chooseMaximallySpecificCandidates(bestCandidates, discriminateGenerics = true, discriminateSAMs = false)
         }
 
         val nameReference = createResolvedNamedReference(
